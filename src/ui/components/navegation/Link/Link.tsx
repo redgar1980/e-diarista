@@ -2,7 +2,6 @@ import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { Link as MuiLink, LinkProps as MuiLinkProps, ButtonProps } from "@mui/material";
 import Router from "next/router";
 import { PropsWithChildren } from "react";
-import React from "react";
 
 interface LinkProps {
     href: string;
