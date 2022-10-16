@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import Link from "./Link";
 
 export default {
-    title: "navegation/Link",
+    title: "navigation/Link",
     component: Link,
 } as ComponentMeta<typeof Link>;
 
