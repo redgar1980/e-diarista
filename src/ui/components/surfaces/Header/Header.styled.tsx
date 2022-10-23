@@ -42,7 +42,7 @@ export const ButtonsContainer = styled("div")`
 
 export const HeaderDrawer = styled(Drawer)`
     .MuiPaper-root{
-        padding: ${({ theme }) => theme.spacing()};
+        padding: ${({ theme }) => theme.spacing(2)};
         background-color: ${({ theme }) => theme.palette.primary.main};
         color: ${({ theme }) => theme.palette.primary.contrastText};
     }

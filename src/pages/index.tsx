@@ -10,8 +10,9 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Index: NextPage<{ title: string }> = (props) => {
-  return (
-   <div><Presentation /></div>
+  return (<div>
+   <Presentation />
+  </div>
   )
 }
 

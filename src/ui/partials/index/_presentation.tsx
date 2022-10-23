@@ -1,13 +1,13 @@
-import { ContainerStyled, SectionContainer } from "./_presentation.styled";
+import { ContainerStyled, SectionContainer, SectionTitle } from "./_presentation.styled";
 
 const Presentation = () => {
     return (
         <SectionContainer>
             <ContainerStyled>
-                <div>Titulofhsdjfjsdhfjsjhfuiwenvjnuihenjnvnunvnvfnnvnvnn njvnndsjfsdkjfv vnjndj</div>
-                <div>Subtitulo</div>
-                <div>Botão</div>
-                <div>Imagem</div>
+                <SectionTitle>
+                    Encontre agora mesmo um(a) <em>diarista</em>
+                    <i className="twf-search" />
+                </SectionTitle>
             </ContainerStyled>
         </SectionContainer>
     );
