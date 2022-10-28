@@ -1,5 +1,8 @@
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { PropsWithChildren } from "react";
+import RoundedButton from "ui/components/inputs/RoundedButton/RoundedButton";
+import Link, { LinkProps } from "ui/components/navigation/Link/Link";
 
 export const SectionContainer = styled("section")`
     min-height: 250px;
@@ -77,4 +80,24 @@ export const SectionTitle = styled('h1')`
             display: none;
         }
     }
+`;
+
+export const SectionSubtitle = styled("p")`
+    grid-area: subtitle;
+
+    ${({ theme }) => theme.breakpoints.down('md')}{
+        margin:${({theme})=>theme.spacing(0,0,5)}
+    }
+
+    ${({ theme })=> theme.breakpoints.up("md")} {
+        width: 350px;
+    }
+`;
+
+export const SectionButton = styled((props: PropsWithChildren<LinkProps>) => (
+    <Link Component={RoundedButton} {...props}/>
+))`
+    grid-area: button;
+    width: 405px;
+    height: 100%;
 `;
