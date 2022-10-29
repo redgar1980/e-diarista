@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ContainerStyled, SectionButton, SectionContainer, SectionPictureContainer, SectionSubtitle, SectionTitle } from "./_presentation.styled";
+import { BottomButtom, ContainerStyled, SectionButton, SectionContainer, SectionPictureContainer, SectionSubtitle, SectionTitle } from "./_presentation.styled";
 
 const Presentation = () => {
     const [cleanerPicture, setCleanerPicture] = useState("");
@@ -29,6 +29,9 @@ const Presentation = () => {
                     <img src={cleanerPicture} alt=""></img>
                 </SectionPictureContainer>
             </ContainerStyled>
+            <BottomButtom>
+                <i className="twf-caret-down" />
+            </BottomButtom>
         </SectionContainer>
     );
 };
