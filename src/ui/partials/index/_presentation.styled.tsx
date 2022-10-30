@@ -7,7 +7,7 @@ import Link, { LinkProps } from "ui/components/navigation/Link/Link";
 export const SectionContainer = styled("section")`
     position: relative;
     min-height: 250px;
-    background-image: url('/img/home/living-room.svg');
+    background-image: url("/img/home/living-room.svg");
     background-repeat: no-repeat;
     background-position: right center;
     background-size: cover;
@@ -27,7 +27,7 @@ export const ContainerStyled = styled(Container)`
     grid-template-rows: repeat(3, auto);
     grid-template-areas: "title" "subtitle" "button";
     align-content: center;
-    
+
     ${({ theme }) => theme.breakpoints.up("md")} {
         grid-template-columns: 450px minmax(200px, 450px);
         grid-template-rows: 125px 55px 60px;
@@ -35,7 +35,7 @@ export const ContainerStyled = styled(Container)`
         gap: ${({ theme }) => theme.spacing(4)};
         align-items: center;
         justify-content: space-between;
-        justify-items: center;        
+        justify-items: center;
         min-height: 450px;
     }
 
@@ -44,7 +44,7 @@ export const ContainerStyled = styled(Container)`
     }
 `;
 
-export const SectionTitle = styled('h1')`
+export const SectionTitle = styled("h1")`
     grid-area: title;
     margin: 0;
     position: relative;
@@ -66,16 +66,16 @@ export const SectionTitle = styled('h1')`
     ${({ theme }) => theme.breakpoints.up("md")} {
         border: 4px solid ${({ theme }) => theme.palette.grey[200]};
         border-radius: 65px;
-        padding: ${({theme})=> theme.spacing(4,8)};
+        padding: ${({ theme }) => theme.spacing(4, 8)};
         line-height: 30px;
 
         em {
-            color: ${({theme})=> theme.palette.primary.main};
+            color: ${({ theme }) => theme.palette.primary.main};
         }
     }
 
     ${({ theme }) => theme.breakpoints.down("md")} {
-        font-size: ${({theme})=> theme.typography.body1.fontSize};
+        font-size: ${({ theme }) => theme.typography.body1.fontSize};
         font-weight: normal;
         .twf-search {
             display: none;
@@ -86,21 +86,24 @@ export const SectionTitle = styled('h1')`
 export const SectionSubtitle = styled("p")`
     grid-area: subtitle;
 
-    ${({ theme }) => theme.breakpoints.down('md')}{
-        margin:${({theme})=>theme.spacing(0,0,5)}
+    ${({ theme }) => theme.breakpoints.down("md")} {
+        margin: ${({ theme }) => theme.spacing(0, 0, 5)};
     }
 
-    ${({ theme })=> theme.breakpoints.up("md")} {
+    ${({ theme }) => theme.breakpoints.up("md")} {
         width: 350px;
     }
 `;
 
 export const SectionButton = styled((props: PropsWithChildren<LinkProps>) => (
-    <Link Component={RoundedButton} {...props}/>
+    <Link Component={RoundedButton} {...props} />
 ))`
     grid-area: button;
-    width: 405px;
-    height: 100%;
+
+    ${({ theme }) => theme.breakpoints.up("md")} {
+        width: 405px;
+        height: 100%;
+    }
 `;
 
 export const SectionPictureContainer = styled("div")`
@@ -112,17 +115,18 @@ export const SectionPictureContainer = styled("div")`
         width: 100%;
     }
 
-    ${({ theme })=> theme.breakpoints.down('md')}{
+    ${({ theme }) => theme.breakpoints.down("md")} {
         display: none;
     }
 
-    &::before, &::after {
+    &::before,
+    &::after {
         content: "";
         position: absolute;
         border-radius: 100%;
     }
 
-    &::before{
+    &::before {
         top: 20%;
         right: 5%;
         width: 130px;
@@ -140,7 +144,7 @@ export const SectionPictureContainer = styled("div")`
     }
 `;
 
-export const BottomButtom = styled('span')`
+export const BottomButtom = styled("span")`
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -153,6 +157,6 @@ export const BottomButtom = styled('span')`
 
     i {
         position: relative;
-        left:-2px;
+        left: -2px;
     }
 `;
