@@ -7,9 +7,7 @@ export default {
   component: SafeEnvironment,
 } as ComponentMeta<typeof SafeEnvironment>;
 
-const Template: ComponentStory<typeof SafeEnvironment> = (args) => {
-  return <SafeEnvironment {...args} />;
-};
+const Template: ComponentStory<typeof SafeEnvironment> = (args) => <SafeEnvironment {...args} />;
 
 export const Default = Template.bind({});
 
