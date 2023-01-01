@@ -21,6 +21,10 @@ module.exports = (plop) => {
             value: 'feedback',
           },
           {
+            name: 'Inputs',
+            value: 'inputs',
+          },
+          {
             name: 'Navigation',
             value: 'navigation',
           },
