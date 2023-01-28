@@ -34,5 +34,5 @@ export default function useVerificarProfissionais() {
     }
   }
 
-  return { cep, setCep, cepValido, error, diaristas, buscaFeita, diaristasRestantes, buscarProfissionais };
+  return { cep, setCep, cepValido, error, diaristas, buscaFeita, carregando, diaristasRestantes, buscarProfissionais };
 }
