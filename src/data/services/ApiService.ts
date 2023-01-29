@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8000';
+const baseUrl = 'http://localhost:8080';
 
 export const ApiService = axios.create({
   baseURL: baseUrl,
