@@ -50,8 +50,8 @@ const VerificarProfissionais: React.FC<PropsWithChildren> = () => {
                   return (
                     <UserInformation
                       key={index}
-                      name={diarista.nomeCompleto}
-                      picture={diarista.fotoUsuario ?? ''}
+                      name={diarista.nome_completo}
+                      picture={diarista.foto_usuario ?? ''}
                       rating={diarista.reputacao ?? 0}
                       description={diarista.cidade}
                     />
