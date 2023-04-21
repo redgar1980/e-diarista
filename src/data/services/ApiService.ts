@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8080';
+const baseUrl = process.env.NEXT_PUBLIC_API;
 
 export const ApiService = axios.create({
   baseURL: baseUrl,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   },
 });
