@@ -13,5 +13,9 @@ export default function useContratacao() {
       ),
     });
 
-  return { step, breadcrumbItems };
+  function onServiceFormSubmit(data: NovaDiariaFormDataInterface) {
+    console.log(data);
+  }
+
+  return { step, breadcrumbItems, serviceForm, onServiceFormSubmit };
 }
