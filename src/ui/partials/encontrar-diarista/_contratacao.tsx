@@ -16,7 +16,7 @@ import DetalheServico from "./_detalhe-servico";
 // import { Component } from './_contratacao.styled';
 
 const Contratacao: React.FC<PropsWithChildren> = () => {
-  const { step, breadcrumbItems, serviceForm, onServiceFormSubmit } =
+  const { step, breadcrumbItems, serviceForm, onServiceFormSubmit, servicos } =
     useContratacao();
   const isMobile = useIsMobile();
   return (
@@ -35,7 +35,7 @@ const Contratacao: React.FC<PropsWithChildren> = () => {
                 onSubmit={serviceForm.handleSubmit(onServiceFormSubmit)}
                 hidden={step !== 1}
               >
-                <DetalheServico />
+                <DetalheServico servicos={servicos} />
               </form>
             </FormProvider>
           </Paper>
