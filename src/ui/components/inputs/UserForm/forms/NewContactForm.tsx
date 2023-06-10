@@ -24,7 +24,7 @@ const NewContactForm = () => {
       <TextField
         type={"password"}
         label={"Password"}
-        style={{ gridArea: "password" }}
+        style={{ gridArea: "senha" }}
         {...register("usuario.password")}
         error={errors?.usuario?.password != undefined}
         helperText={errors?.usuario?.password?.message}

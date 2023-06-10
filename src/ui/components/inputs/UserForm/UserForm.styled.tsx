@@ -25,7 +25,7 @@ export const NewContactData = styled(BaseGrid)`
     grid-template-areas:
       "email"
       "senha"
-      "password-stregth"
+      "password-strength"
       "confirmar-senha";
   }
 `;
