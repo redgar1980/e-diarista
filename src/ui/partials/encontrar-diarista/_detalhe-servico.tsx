@@ -1,4 +1,4 @@
-import { Divider, Tooltip, Typography } from "@mui/material";
+import { Button, Container, Divider, Tooltip, Typography } from "@mui/material";
 import { ServicoInterface } from "data/@types/ServicoInterface";
 import React, { PropsWithChildren } from "react";
 import { useFormContext, Controller } from "react-hook-form";
@@ -10,9 +10,12 @@ import TextFieldMask from "ui/components/inputs/TextFieldMask/TextFieldMask";
 import { ItemsContainer } from "./_detalhe-servico.styled";
 import ItemCounter from "ui/components/inputs/ItemCounter/ItemCounter";
 import { FormValues } from "data/@types/forms/FormValue";
+import TextField from "ui/components/inputs/TextField/TextField";
 
 interface DetalheServicoProps {
   servicos?: ServicoInterface[];
+  comodos?: number;
+  podemosAtender?: boolean;
 }
 
 const houseParts = [
@@ -48,7 +51,11 @@ const houseParts = [
   },
 ];
 
-const DetalheServico: React.FC<DetalheServicoProps> = ({ servicos = [] }) => {
+const DetalheServico: React.FC<DetalheServicoProps> = ({
+  servicos = [],
+  comodos = 0,
+  podemosAtender,
+}) => {
   const {
     register,
     control,
@@ -160,6 +167,7 @@ const DetalheServico: React.FC<DetalheServicoProps> = ({ servicos = [] }) => {
                   label={"Hora Término"}
                   error={errors?.faxina?.hora_termino != undefined}
                   helperText={errors?.faxina?.hora_termino?.message}
+                  fullWidth
                 />
               </div>
             </Tooltip>
@@ -167,7 +175,38 @@ const DetalheServico: React.FC<DetalheServicoProps> = ({ servicos = [] }) => {
         />
       </ItemsContainer>
       <Divider sx={{ my: 5 }} />
+      <Typography sx={{ fontWeight: "bold", pb: 2 }}>Observações</Typography>
+
+      <TextField
+        label={"Quer acrescentar algum detalhe?"}
+        {...register("faxina.observacoes")}
+        required={false}
+        fullWidth
+        multiline
+      />
+
+      <Divider sx={{ my: 5 }} />
+      <Typography sx={{ fontWeight: "bold", pb: 2 }}>
+        Qual endereço onde será realizada a limpeza?
+      </Typography>
       <AddressForm />
+
+      {!podemosAtender && (
+        <Typography color={"error"} align={"center"} sx={{ pb: 2 }}>
+          Infelizmente ainda não atendemos na sua região
+        </Typography>
+      )}
+
+      <Container sx={{ textAlign: "right" }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          disabled={comodos === 0 || !podemosAtender}
+        >
+          Ir para identificação
+        </Button>
+      </Container>
     </div>
   );
 };
