@@ -4,7 +4,9 @@ import {
   PictureForm,
   UserDataForm,
 } from "ui/components/inputs/UserForm/UserForm";
+import { LoginForm } from "ui/components/inputs/UserForm/forms/LoginForm";
 import NewContactForm from "ui/components/inputs/UserForm/forms/NewContactForm";
+import { LoginButtonsContainer } from "./_cadastro-cliente.styled";
 
 // import { Component } from './_cadastro-cliente.styled';
 
@@ -42,6 +44,28 @@ const CadastroCliente: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           Ir para pagamento
         </Button>
       </Container>
+    </div>
+  );
+};
+
+export const LoginCliente: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  return (
+    <div>
+      <LoginForm />
+      <LoginButtonsContainer>
+        <Button
+          variant="outlined"
+          color="primary"
+          type="button"
+          onClick={onBack}
+        >
+          Voltar para detalhes da diária
+        </Button>
+
+        <Button variant="contained" color="secondary" type="submit">
+          Ir para pagamento
+        </Button>
+      </LoginButtonsContainer>
     </div>
   );
 };

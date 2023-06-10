@@ -1,8 +1,14 @@
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 // import { } from '@mui/material';
 
+export const LoginButtonsContainer = styled("div")`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${({ theme }) => theme.spacing(3)};
 
-export const Component = styled('div')`
-  background-color: white;
-  color: black;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 300px;
+  }
 `;
