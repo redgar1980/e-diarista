@@ -13,6 +13,7 @@ import {
 import BreadCrumb from "ui/components/navigation/BreadCrumb/BreadCrumb";
 import DetalheServico from "./_detalhe-servico";
 import CadastroCliente, { LoginCliente } from "./_cadastro-cliente";
+import InformacoesPagamento from "./_informacoes-pagamento";
 
 // import { Component } from './_contratacao.styled';
 
@@ -31,6 +32,8 @@ const Contratacao: React.FC<PropsWithChildren> = () => {
     loginForm,
     onLoginFormSubmit,
     loginErro,
+    paymentForm,
+    onPaymentFormSubmit,
   } = useContratacao();
   const isMobile = useIsMobile();
   return (
@@ -91,6 +94,14 @@ const Contratacao: React.FC<PropsWithChildren> = () => {
                     </Typography>
                   )}
                   <LoginCliente onBack={() => setStep(1)} />
+                </form>
+              </FormProvider>
+            )}
+
+            {step === 3 && (
+              <FormProvider {...paymentForm}>
+                <form onSubmit={paymentForm.handleSubmit(onPaymentFormSubmit)}>
+                  <InformacoesPagamento />
                 </form>
               </FormProvider>
             )}
