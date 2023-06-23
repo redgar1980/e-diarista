@@ -31,7 +31,7 @@ export interface ExternalServiceReducerInterface {
   externalServicesDispatch: React.Dispatch<ExternalServiceActionType>;
 }
 
-export function useExternalReducer(): ExternalServiceReducerInterface {
+export function useExternalServicesReducer(): ExternalServiceReducerInterface {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
