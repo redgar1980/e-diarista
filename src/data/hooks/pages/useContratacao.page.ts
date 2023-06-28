@@ -10,8 +10,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ServicoInterface } from "data/@types/ServicoInterface";
+import userSwr from "swr";
 
 export default function useContratacao() {
+  const { data, error } = userSwr("minhaBusca", () => {
+    return [1, 2, 3];
+  });
+
+  console.log(data);
   const [step, setStep] = useState(3),
     [hasLogin, setHasLogin] = useState(false),
     [loginErro, setLoginErro] = useState(""),
