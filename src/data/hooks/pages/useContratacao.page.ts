@@ -11,14 +11,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ServicoInterface } from "data/@types/ServicoInterface";
 import userSwr from "swr";
+import useApi from "../useApi.hook";
 
 export default function useContratacao() {
-  const { data, error } = userSwr("minhaBusca", () => {
-    return [1, 2, 3];
-  });
-
-  console.log(data);
-  const [step, setStep] = useState(3),
+  const [step, setStep] = useState(1),
     [hasLogin, setHasLogin] = useState(false),
     [loginErro, setLoginErro] = useState(""),
     breadcrumbItems = ["Detalhes da diária", "Identificação", "Pagamento"],
@@ -38,28 +34,7 @@ export default function useContratacao() {
     paymentForm = useForm<PagamentoFormDataInterface>({
       resolver: yupResolver(FormSchemaService.payment()),
     }),
-    servicos: ServicoInterface[] = [
-      {
-        id: 0,
-        nome: "Limpeza comum",
-        icone: "twf-cleaning-1",
-        horas_banheiro: 1,
-        horas_cozinha: 1,
-        horas_outros: 1,
-        horas_quarto: 1,
-        horas_quintal: 1,
-        horas_sala: 1,
-        porcentagem_comissao: 10,
-        qtd_horas: 2,
-        valor_banheiro: 20,
-        valor_cozinha: 20,
-        valor_minimo: 20,
-        valor_outros: 20,
-        valor_quarto: 20,
-        valor_quintal: 20,
-        valor_sala: 20,
-      },
-    ];
+    servicos = useApi<ServicoInterface[]>("/api/servicos").data;
 
   function onServiceFormSubmit(data: NovaDiariaFormDataInterface) {
     console.log(data);
