@@ -24,8 +24,7 @@ export const AccordionStyled = styled(Accordion)`
       background-color: ${({ theme }) => theme.palette.primary.main};
     }
     .MuiAccordionDetails-root,
-    .MuiAccordionActions-root,
-    .MuiTypography-root {
+    .MuiAccordionActions-root .MuiTypography-root {
       color: ${({ theme }) => theme.palette.primary.contrastText};
       font-size: ${({ theme }) => theme.typography.body2.fontSize};
     }
