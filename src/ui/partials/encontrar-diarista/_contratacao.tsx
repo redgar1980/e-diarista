@@ -47,6 +47,7 @@ const Contratacao: React.FC<PropsWithChildren> = () => {
     tamanhoCasa,
     tipoLimpeza,
     totalPrice,
+    podemosAtender,
   } = useContratacao();
   const isMobile = useIsMobile(),
     dataAtendimento = serviceForm.watch("faxina.data_atendimento");
@@ -123,7 +124,11 @@ const Contratacao: React.FC<PropsWithChildren> = () => {
                 onSubmit={serviceForm.handleSubmit(onServiceFormSubmit)}
                 hidden={step !== 1}
               >
-                <DetalheServico servicos={servicos} />
+                <DetalheServico
+                  servicos={servicos}
+                  podemosAtender={podemosAtender}
+                  comodos={tamanhoCasa.length}
+                />
               </form>
             </FormProvider>
 
