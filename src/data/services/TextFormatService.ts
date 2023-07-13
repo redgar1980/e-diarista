@@ -20,4 +20,14 @@ export const TextFormatService = {
     }
     return CurrencyFormatter.format(price);
   },
+  getNumbersFromText(text = ""): string {
+    return text.replace(/\D/g, "");
+  },
+  dataToString(date: Date, withTime?: false): string {
+    const time = date.toISOString();
+    if (withTime) {
+      return time.substring(0, 19);
+    }
+    return time.substring(0, 10);
+  },
 };
