@@ -11,13 +11,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ServicoInterface } from "data/@types/ServicoInterface";
 import userSwr from "swr";
-import useApi from "../useApi.hook";
 import { DiariaInterface } from "data/@types/DiariaInterface";
 import { ValidationService } from "data/services/ValidationService";
 import { DateService } from "data/services/DateService";
 import { houseParts } from "@partials/encontrar-diarista/_detalhe-servico";
 import { ExternalServiceContext } from "data/contexts/ExternalServiceContext";
-import { ApiService, linksResolver } from "data/services/ApiService";
+import {
+  ApiService,
+  ApiServiceHateoas,
+  linksResolver,
+} from "data/services/ApiService";
+import useApiHateoas from "../useApi.hook";
 
 export default function useContratacao() {
   const [step, setStep] = useState(1),
@@ -40,7 +44,11 @@ export default function useContratacao() {
     paymentForm = useForm<PagamentoFormDataInterface>({
       resolver: yupResolver(FormSchemaService.payment()),
     }),
-    servicos = useApi<ServicoInterface[]>("/api/servicos").data,
+    { externalServicesState } = useContext(ExternalServiceContext),
+    servicos = useApiHateoas<ServicoInterface[]>(
+      externalServicesState.externaService,
+      "listar_servicos"
+    ).data,
     dadosFaxina = serviceForm.watch("faxina"),
     tipoLimpeza = useMemo<ServicoInterface>(() => {
       if (servicos && dadosFaxina?.servico) {
@@ -72,26 +80,25 @@ export default function useContratacao() {
       dadosFaxina?.quantidade_salas,
     ]),
     cepFaxina = serviceForm.watch("endereco.cep"),
-    [podemosAtender, setPodemosAtender] = useState(false),
-    { externalServicesState } = useContext(ExternalServiceContext);
+    [podemosAtender, setPodemosAtender] = useState(false);
 
   useEffect(() => {
     //verificar_disponibilidade_atendimento
     const cep = (cepFaxina ?? "").replace(/\D/g, "");
     if (ValidationService.cep(cep)) {
-      const linkDisponibilidade = linksResolver(
+      ApiServiceHateoas(
         externalServicesState.externaService,
-        "verificar_disponibilidade_atendimento"
+        "verificar_disponibilidade_atendimento",
+        (request) => {
+          request<{ disponibilidade: boolean }>({ params: { cep } })
+            .then(({ data }) => {
+              setPodemosAtender(data.disponibilidade);
+            })
+            .catch((_err) => {
+              setPodemosAtender(false);
+            });
+        }
       );
-      if (linkDisponibilidade) {
-        ApiService.request({
-          url: linkDisponibilidade.uri,
-          method: linkDisponibilidade.type,
-          params: { cep },
-        })
-          .then((response) => setPodemosAtender(true))
-          .catch((_erro) => setPodemosAtender(false));
-      }
     } else {
       setPodemosAtender(false);
     }
