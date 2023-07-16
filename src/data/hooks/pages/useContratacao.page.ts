@@ -25,6 +25,7 @@ import useApiHateoas from "../useApi.hook";
 import { UserContext } from "data/contexts/UserContext";
 import { UserInterface } from "data/@types/UserInterface";
 import { TextFormatService } from "data/services/TextFormatService";
+import { LoginService } from "data/services/LoginService";
 
 export default function useContratacao() {
   const [step, setStep] = useState(1),
@@ -155,10 +156,34 @@ export default function useContratacao() {
     console.log(data);
   }
 
-  function onLoginFormSubmit(
+  async function onLoginFormSubmit(
     data: LoginFormDataInterface<CredenciaisInterface>
   ) {
-    console.log(data);
+    const loginSuccess = await login(data.login);
+    if (loginSuccess) {
+      const user = await LoginService.getUser();
+      if (user) {
+        criarDiaria(user);
+        setStep(3);
+      }
+    }
+  }
+
+  async function login(
+    credentials: CredenciaisInterface,
+    user?: UserInterface
+  ): Promise<boolean> {
+    const loginSuccess = await LoginService.login(credentials);
+
+    if (loginSuccess) {
+      if (!user) {
+        user = await LoginService.getUser();
+      }
+      userDispatch({ type: "SET_USER", payload: user });
+    } else {
+      setLoginErro("E-mail e/ou Senha inválidos");
+    }
+    return loginSuccess;
   }
 
   function onPaymentFormSubmit(data: PagamentoFormDataInterface) {
