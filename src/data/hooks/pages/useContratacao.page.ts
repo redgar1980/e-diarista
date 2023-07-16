@@ -28,6 +28,8 @@ import { TextFormatService } from "data/services/TextFormatService";
 import { LoginService } from "data/services/LoginService";
 import { UserService } from "data/services/UserService";
 import { ApiLinksInterface } from "data/@types/ApiLinksInterface";
+import { CardInterface } from "pagarme";
+import { PaymentService } from "data/services/PaymentService";
 
 export default function useContratacao() {
   const [step, setStep] = useState(1),
@@ -219,8 +221,31 @@ export default function useContratacao() {
     return loginSuccess;
   }
 
-  function onPaymentFormSubmit(data: PagamentoFormDataInterface) {
-    console.log(data);
+  async function onPaymentFormSubmit(data: PagamentoFormDataInterface) {
+    const cartao = {
+      card_number: data.pagamento.numero_cartao.replaceAll(" ", ""),
+      card_holder_name: data.pagamento.nome_cartao,
+      card_cvv: data.pagamento.codigo,
+      card_expiration_date: data.pagamento.validade,
+    } as CardInterface;
+
+    const hash = await PaymentService.getHash(cartao);
+
+    ApiServiceHateoas(novaDiaria.links, "pagar_diaria", async (request) => {
+      try {
+        await request({
+          data: {
+            card_hash: hash,
+          },
+        });
+        setStep(4);
+      } catch (error) {
+        paymentForm.setError("pagamento_recusado", {
+          type: "manual",
+          message: "Pagamento recusado",
+        });
+      }
+    });
   }
 
   function calcularTempoServico(
