@@ -22,6 +22,9 @@ import {
   linksResolver,
 } from "data/services/ApiService";
 import useApiHateoas from "../useApi.hook";
+import { UserContext } from "data/contexts/UserContext";
+import { UserInterface } from "data/@types/UserInterface";
+import { TextFormatService } from "data/services/TextFormatService";
 
 export default function useContratacao() {
   const [step, setStep] = useState(1),
@@ -80,7 +83,9 @@ export default function useContratacao() {
       dadosFaxina?.quantidade_salas,
     ]),
     cepFaxina = serviceForm.watch("endereco.cep"),
-    [podemosAtender, setPodemosAtender] = useState(false);
+    [podemosAtender, setPodemosAtender] = useState(false),
+    { userState, userDispatch } = useContext(UserContext),
+    [novaDiaria, setNovaDiaria] = useState({} as DiariaInterface);
 
   useEffect(() => {
     //verificar_disponibilidade_atendimento
@@ -139,7 +144,11 @@ export default function useContratacao() {
   ]);
 
   function onServiceFormSubmit(data: NovaDiariaFormDataInterface) {
-    console.log(data);
+    if (userState.user.nome_completo) {
+      criarDiaria(userState.user);
+    } else {
+      setStep(2);
+    }
   }
 
   function onClientFormSubmit(data: CadastroClienteFormDataInterface) {
@@ -204,6 +213,31 @@ export default function useContratacao() {
     }
 
     return comodos;
+  }
+
+  async function criarDiaria(user: UserInterface) {
+    if (user.nome_completo) {
+      const { endereco, faxina } = serviceForm.getValues();
+      ApiServiceHateoas(user.links, "cadastrar_diaria", async (request) => {
+        const { data: novaDiaria } = await request<DiariaInterface>({
+          data: {
+            ...faxina,
+            ...endereco,
+            cep: TextFormatService.getNumbersFromText(endereco.cep),
+            preco: totalPrice,
+            tempo_atendimento: totalTime,
+            data_atendimento: TextFormatService.reverseDate(
+              faxina.data_atendimento + "T" + faxina.hora_inicio
+            ),
+          },
+        });
+
+        if (novaDiaria) {
+          setStep(3);
+          setNovaDiaria(novaDiaria);
+        }
+      });
+    }
   }
 
   return {
