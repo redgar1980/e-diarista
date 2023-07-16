@@ -23,9 +23,11 @@ import {
 } from "data/services/ApiService";
 import useApiHateoas from "../useApi.hook";
 import { UserContext } from "data/contexts/UserContext";
-import { UserInterface } from "data/@types/UserInterface";
+import { UserInterface, UserType } from "data/@types/UserInterface";
 import { TextFormatService } from "data/services/TextFormatService";
 import { LoginService } from "data/services/LoginService";
+import { UserService } from "data/services/UserService";
+import { ApiLinksInterface } from "data/@types/ApiLinksInterface";
 
 export default function useContratacao() {
   const [step, setStep] = useState(1),
@@ -152,8 +154,39 @@ export default function useContratacao() {
     }
   }
 
-  function onClientFormSubmit(data: CadastroClienteFormDataInterface) {
-    console.log(data);
+  async function onClientFormSubmit(data: CadastroClienteFormDataInterface) {
+    const newUserLink = linksResolver(
+      externalServicesState.externaService,
+      "cadastrar_usuario"
+    );
+
+    if (newUserLink) {
+      try {
+        await cadastrarUsuario(data, newUserLink);
+      } catch (error) {
+        UserService.handleNewUserError(error, clientForm);
+      }
+    }
+  }
+
+  async function cadastrarUsuario(
+    data: CadastroClienteFormDataInterface,
+    link: ApiLinksInterface
+  ) {
+    const newUser = await UserService.cadastrar(
+      data.usuario,
+      UserType.Cliente,
+      link
+    );
+    if (newUser) {
+      const loginSuccess = await login(
+        { email: data.usuario.email, password: data.usuario.password ?? "" },
+        newUser
+      );
+      if (loginSuccess) {
+        criarDiaria(newUser);
+      }
+    }
   }
 
   async function onLoginFormSubmit(
