@@ -15,7 +15,7 @@ export const PaymentForm = () => {
 
   useEffect(() => {
     register("pagamento_recusado");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <PaymentData>
@@ -49,7 +49,7 @@ export const PaymentForm = () => {
         render={({ field: { ref, ...inputProps } }) => (
           <TextFieldMask
             {...inputProps}
-            mask="99/99"
+            mask="999"
             label={"Validade"}
             style={{ gridArea: "validade" }}
             error={errors.pagamento?.validade != undefined}
