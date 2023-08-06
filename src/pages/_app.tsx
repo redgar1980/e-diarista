@@ -12,6 +12,7 @@ import useRouterGuard, {
   privateRoutes,
 } from "data/hooks/pages/useRouterGuard.hook";
 import { UserContext } from "data/contexts/UserContext";
+import { LoginService } from "data/services/LoginService";
 
 function App({ Component, pageProps }: AppProps) {
   const title = `e-diarista ${pageProps.title && pageProps.title}`,
@@ -27,6 +28,12 @@ function App({ Component, pageProps }: AppProps) {
     }
     return true;
   }
+
+  async function onLogout() {
+    await LoginService.logout();
+    window.location.reload();
+  }
+
   return (
     <>
       <Head>
@@ -34,7 +41,7 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <AppContainer>
-          <Header user={userState.user} />
+          <Header user={userState.user} onLogout={onLogout} />
           <main>
             {canShow() ? (
               <Component {...pageProps} />
