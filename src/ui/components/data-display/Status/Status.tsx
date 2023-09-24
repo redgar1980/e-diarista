@@ -3,9 +3,10 @@ import React, { PropsWithChildren } from "react";
 import { StatusStyled } from "./Status.styled";
 import { colors } from "@mui/material";
 import { props } from "cypress/types/bluebird";
+import { TextColor } from "data/@types/DiariaInterface";
 
 export interface StatusProps {
-  colors?: "success" | "error" | "warning" | "primary" | "secondary";
+  colors?: TextColor;
 }
 
 const Status: React.FC<PropsWithChildren<StatusProps>> = ({

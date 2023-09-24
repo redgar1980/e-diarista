@@ -16,7 +16,7 @@ export const annonymousRoutes = [
   "/",
 ];
 
-export const houseCleanerOnlyRoutes = ["/pagamentos", "oportunidades"];
+export const houseCleanerOnlyRoutes = ["/pagamentos", "/oportunidades"];
 
 export default function useRouterGuard(
   user: UserInterface,
