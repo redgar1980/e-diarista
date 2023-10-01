@@ -6,9 +6,10 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  TablePagination,
   Paper,
 } from "@mui/material";
+
+import Pagination from "@mui/material/Pagination";
 //import { TableProps } from './Table';
 
 export const TablePaper = styled(Paper)`
@@ -38,6 +39,10 @@ export const TableCellStyled = styled(TableCell)`
     color: ${({ theme }) => theme.palette.text.secondary}
   }
 `;
-export const TablePaginationStyled = styled(TablePagination)``;
+export const TablePaginationStyled = styled(Pagination)`
+  display: flex;
+  justify-content: flex-end;
+  margin: ${({ theme }) => theme.spacing(4)};
+`;
 export const TableContainerStyled = styled(TableContainer)``;
 export const TableRowStyled = styled(TableRow)``;

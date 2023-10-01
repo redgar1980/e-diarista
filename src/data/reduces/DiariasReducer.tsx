@@ -45,10 +45,10 @@ export interface DiariaReducerInterface {
 export function useDiariaReducer(): DiariaReducerInterface {
   const [state, dispatch] = useReducer(reducer, initialState),
     { userState } = useContext(UserContext),
-    diarias = useApiHateoas<DiariaInterface>(
+    diarias = useApiHateoas<DiariaInterface[]>(
       userState.user.links,
       "lista_diarias"
-    );
+    ).data;
 
   useEffect(() => {
     if (diarias) {
