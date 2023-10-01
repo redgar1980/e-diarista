@@ -36,6 +36,7 @@ export function useExternalServicesReducer(): ExternalServiceReducerInterface {
 
   useEffect(() => {
     ApiService.get<{ links: ApiLinksInterface[] }>("/api").then(({ data }) => {
+      console.log(data);
       dispatch({
         type: "UPDATE",
         payload: data.links,
