@@ -15,8 +15,7 @@ import { UserContext } from "data/contexts/UserContext";
 import { LoginService } from "data/services/LoginService";
 
 function App({ Component, pageProps }: AppProps) {
-  const title = `e-diarista ${pageProps.title && pageProps.title}`,
-    { userState } = useContext(UserContext),
+  const { userState } = useContext(UserContext),
     router = useRouterGuard(userState.user, userState.isLogging);
 
   function canShow(): boolean {
@@ -37,7 +36,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>e-diarista {pageProps.title && ` - ${pageProps.title}`}</title>
       </Head>
       <ThemeProvider theme={theme}>
         <AppContainer>
