@@ -23,6 +23,10 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
     totalPages,
     itemsPerPage,
     filteredData,
+    podeVisualizar,
+    podeCancelar,
+    podeConfirmar,
+    podeAvaliar,
   } = useMinhasDiarias();
   return (
     <Container sx={{ mb: 5, p: 0 }}>
@@ -53,17 +57,31 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
                   }
                   actions={
                     <>
-                      <Button
-                        component={Link}
-                        href=""
-                        color={"inherit"}
-                        variant={"outlined"}
-                      >
-                        Detalhes
-                      </Button>
-                      <Button color={"error"} variant={"contained"}>
-                        Cancelado
-                      </Button>
+                      {podeVisualizar(item) && (
+                        <Button
+                          component={Link}
+                          href={`?id=${item.id}`}
+                          color={"inherit"}
+                          variant={"outlined"}
+                        >
+                          Detalhes
+                        </Button>
+                      )}
+                      {podeCancelar(item) && (
+                        <Button color={"error"} variant={"contained"}>
+                          Cancelado
+                        </Button>
+                      )}
+                      {podeConfirmar(item) && (
+                        <Button color={"success"} variant={"contained"}>
+                          Confirmar Presença
+                        </Button>
+                      )}
+                      {podeAvaliar(item) && (
+                        <Button color={"success"} variant={"contained"}>
+                          Avaliar
+                        </Button>
+                      )}
                     </>
                   }
                 />
@@ -99,10 +117,20 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
                     {TextFormatService.currency(item.preco)}
                   </TableCell>
                   <TableCell>
-                    <Link href="">Detalhes</Link>
+                    {podeVisualizar(item) && (
+                      <Link href={`?id=${item.id}`}>Detalhes</Link>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <Button color="error">Cancelar</Button>
+                    {podeCancelar(item) && (
+                      <Button color="error">Cancelar</Button>
+                    )}
+                    {podeConfirmar(item) && (
+                      <Button color={"success"}>Confirmar Presença</Button>
+                    )}
+                    {podeAvaliar(item) && (
+                      <Button color={"success"}>Avaliar</Button>
+                    )}
                   </TableCell>
                 </TableRow>
               )}
