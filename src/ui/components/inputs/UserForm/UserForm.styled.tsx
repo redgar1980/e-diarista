@@ -127,3 +127,8 @@ export const LoginData = styled(BaseGrid)`
 export const FinancialData = styled(BaseGrid)`
   grid-template-columns: 1f;
 `;
+
+export const CitiesSelection = styled(BaseGrid)`
+  grid-template-columns: 1f;
+  grid-template-areas: 'busca-cidade';
+`;
