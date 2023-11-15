@@ -43,6 +43,7 @@ export const CitiesForm: React.FC<{ estado:string }> = ({ estado }) => {
                                 </>
                             ),
                         }}
+                        fullWidth
                         required={false}
                         {...params}
                     />
