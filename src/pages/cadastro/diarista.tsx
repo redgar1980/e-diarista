@@ -18,7 +18,6 @@ import SideInformation from "ui/components/data-display/SideInformation/SideInfo
 import useIsMobile from "data/hooks/useIsMobile";
 import { FormProvider } from "react-hook-form";
 import { Button, Container, Divider, Paper, Typography } from "@mui/material";
-import { FinancialData, NewContactData } from "ui/components/inputs/UserForm/UserForm.styled";
 import NewContactForm from "ui/components/inputs/UserForm/forms/NewContactForm";
 import { CitiesForm } from "ui/components/inputs/UserForm/forms/CitiesForm";
 

@@ -8,6 +8,7 @@ export const ChipsContainer = styled("ul")`
   align-items: center;
   padding: ${({ theme }) => theme.spacing(2)};
   margin: 0;
+  border-radius: ${({ theme }) => theme.shape.borderRadius};
   background-color: ${({ theme }) => theme.palette.grey[50]};
   border: 1px solid ${({ theme }) => theme.palette.grey[100]};
   list-style-type: none;

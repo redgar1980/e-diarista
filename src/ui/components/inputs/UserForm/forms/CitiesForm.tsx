@@ -5,7 +5,7 @@ import { CidadeInterface } from "data/@types/EnderecoInteface";
 import TextField from "ui/components/inputs/TextField/TextField";
 import ChipField from "ui/components/data-display/ChipField/ChipField";
 
-export const CitiesForm: React.FC<{ estado:string }> = ({ estado }) => {
+export const CitiesForm: React.FC<{ estado: string }> = ({ estado }) => {
     const {
         options,
         handleNewCity,
@@ -26,7 +26,7 @@ export const CitiesForm: React.FC<{ estado:string }> = ({ estado }) => {
             loadingText={"Carregando cidades..."}
             style={{ gridArea: "busca-cidade" }}
             noOptionsText={"Nenhuma cidade com esse nome"}
-            renderInput={(InputProps, ...params) => {
+            renderInput={({ InputProps, ...params }) => {
                 return (
                     <TextField 
                         label={"Busque pelo nome da cidade"}
@@ -39,11 +39,10 @@ export const CitiesForm: React.FC<{ estado:string }> = ({ estado }) => {
                                     ) : (
                                         <CircularProgress />
                                     )}
-                                   {InputProps.InputProps.endAdornment} 
+                                   {InputProps.endAdornment} 
                                 </>
                             ),
                         }}
-                        fullWidth
                         required={false}
                         {...params}
                     />
