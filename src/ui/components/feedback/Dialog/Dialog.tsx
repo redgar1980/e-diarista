@@ -12,14 +12,14 @@ import useIsMobile from 'data/hooks/useIsMobile';
 
 
 export interface DialogProps {
-    title: string;
+    title?: string;
     subtitle?: string;
     confirmLabel?: string;
     cancelLabel?: string;
     isOpen: boolean;
     onClose: () => void;
-    onCancel: () => void;
-    onConfirm: () => void;
+    onCancel?: () => void;
+    onConfirm?: () => void;
     noConfirm?: boolean;
     noCancel?: boolean;
 }
