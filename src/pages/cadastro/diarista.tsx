@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Diarista: React.FC = () => {
-  const { breadCrumberItem, step, setStep, userForm, addressListForm } = useCadastroDiarista(),
+  const { breadCrumberItem, step, setStep, userForm, addressListForm, onUserSubmit, load } = useCadastroDiarista(),
     isMobile = useIsMobile();
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Diarista: React.FC = () => {
         <PageFormContainer>
           {step === 1 && (
             <FormProvider {...userForm}>
-              <Paper sx={{ p: 4 }} component={"form"} onSubmit={() => {}}>
+              <Paper sx={{ p: 4 }} component={"form"} onSubmit={userForm.handleSubmit(onUserSubmit)}>
                 <Typography sx={{ fontWeight: "bold", pb: 2 }}>
                   Dados Pessoais
                 </Typography>
@@ -114,6 +114,7 @@ const Diarista: React.FC = () => {
                     variant="contained"
                     color={"secondary"}
                     type={"submit"}
+                    disabled={load}
                     >
                     Cadastrar e escolher cidades
                   </Button>
