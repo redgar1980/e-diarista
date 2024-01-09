@@ -95,6 +95,9 @@ const HeaderDesktop: React.FC<HeaderProps> = (props) => {
             <Link href="/login" Component={RoundedButton}>
               Login
             </Link>
+            <Link href="/oportunidades" Component={RoundedButton}>
+                  Oportunidades
+            </Link>
           </ButtonsContainer>
         )}
       </Toolbar>

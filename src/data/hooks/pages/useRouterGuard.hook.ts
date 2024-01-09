@@ -6,17 +6,18 @@ export const privateRoutes = [
   "/alterar-dados",
   "/diarias",
   "/pagamentos",
-  "/oportunidades",
+  //"/oportunidades",
 ];
 
 export const annonymousRoutes = [
   "/cadastro/diarista",
   "/login",
   "/recuperar-senha",
+  "/oportunidades",
   "/",
 ];
 
-export const houseCleanerOnlyRoutes = ["/pagamentos", "/oportunidades"];
+export const houseCleanerOnlyRoutes = ["/pagamentos"];
 
 export default function useRouterGuard(
   user: UserInterface,
