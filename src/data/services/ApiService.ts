@@ -38,7 +38,7 @@ async function handleTokenRefresh(error: { config: AxiosRequestConfig }) {
       }>("/auth/token/refresh/", {
         refresh: tokenRefresh,
       });
-
+      console.log(data);
       LocalStorage.set("token_refresh", data.refresh);
       LocalStorage.set("token", data.access);
 
@@ -46,6 +46,7 @@ async function handleTokenRefresh(error: { config: AxiosRequestConfig }) {
       error.config.headers!.Authorization = `Bearer ${data.access}`;
       return ApiService(error.config);
     } catch (error) {
+      console.log(tokenRefresh);
       return error;
     }
   }

@@ -11,6 +11,11 @@ export const LoginService = {
         refresh: string;
       }>("/auth/token", credencials);
 
+      /*const data = {
+        access: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpYS1mZXJuYW5kYTgwQGV4YW1wbGUub3JnIiwiZXhwIjoxNzA0NDEzMDc1LCJpYXQiOjE3MDQ0MTMwNDV9.cBPELs31CkRNKaFTmIwjmw-zYu-hhO10SzzHer5wc1D_6VkzwKVhClWD5IiXaXwnAWgrzrn96Kioq22FWNSE6g',
+        refresh: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpYS1mZXJuYW5kYTgwQGV4YW1wbGUub3JnIiwiZXhwIjoxNzA0NDEzMTA1LCJpYXQiOjE3MDQ0MTMwNDV9.l2rTOhV26LScb8lDO9y3mSFiACbK36FXVMZUbfosX1O1i6YYP_PvaE5ukbwdUU__QUtpyLnGX8c9OWieBDPpVw'
+      }*/
+
       LocalStorage.set("token", data.access);
       LocalStorage.set("token_refresh", data.refresh);
 

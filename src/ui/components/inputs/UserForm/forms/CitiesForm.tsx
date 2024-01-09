@@ -13,6 +13,7 @@ export const CitiesForm: React.FC<{ estado: string }> = ({ estado }) => {
         citiesName,
         handleDelete,
     } = useCitiesForm(estado);
+    
     return <CitiesSelection>
         <Autocomplete
             value={{ cidade: "" } as CidadeInterface}
@@ -21,6 +22,7 @@ export const CitiesForm: React.FC<{ estado: string }> = ({ estado }) => {
             }}
             disablePortal
             options={options}
+            isOptionEqualToValue={(option, value) => option.cidade === value.cidade}
             getOptionLabel={(option)=>option.cidade}
             loading={citiesList.length === 0}
             loadingText={"Carregando cidades..."}

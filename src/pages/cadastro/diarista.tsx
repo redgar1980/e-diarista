@@ -33,13 +33,14 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Diarista: React.FC = () => {
-  const { breadCrumberItem, step, setStep, userForm, addressListForm, onUserSubmit, load } = useCadastroDiarista(),
+  const { breadCrumberItem, step, setStep, userForm, addressListForm, onUserSubmit, load, onAddressSubmit, enderecoAtendidos, newAddress, sucessoCadastro } = useCadastroDiarista(),
     isMobile = useIsMobile();
 
   useEffect(() => {
     BrowserService.scrollToTop;
   }, [step]);
-
+  console.log("enderecoAtendidos " + enderecoAtendidos);
+  console.log("load " + load);
   return (
     <div>
       <SafeEnvironment />
@@ -128,16 +129,19 @@ const Diarista: React.FC = () => {
               <Paper
                 component={"form"}
                 sx={{ p: 4}}
+                onSubmit={addressListForm.handleSubmit(onAddressSubmit)}
               >
                 <Typography sx={{fontWeight: "bold", pb: 2}}>
                   Selecione a cidade
                 </Typography>
+                {/* { newAddress && <CitiesForm estado={newAddress.estado} />} */}
                 <CitiesForm estado={"RJ"} />
                 <Container sx={{textAlign: "center"}}>
                   <Button
                     variant="contained"
                     color="secondary"
                     type={"submit"}
+                    disabled={load || enderecoAtendidos?.length === 0 || enderecoAtendidos === undefined }
                   >
                     Finalizar o cadastro
                   </Button>
@@ -175,7 +179,7 @@ const Diarista: React.FC = () => {
       </UserFormContainer>
       <Dialog
         title="Cadastro realizado com sucesso" 
-        isOpen={false} 
+        isOpen={sucessoCadastro} 
         noCancel 
         confirmLabel="Ver oportunidades"
         onConfirm={() => window.location.reload()}
