@@ -6,6 +6,7 @@ import useOportunidades from 'data/hooks/pages/useOportunidades.page';
 import DataList from 'ui/components/data-display/DataList/DataList';
 import { ItemsContainer } from '@partials/encontrar-diarista/_detalhe-servico.styled';
 import { TextFormatService } from 'data/services/TextFormatService';
+import Table, { TableCell, TablePagination, TableRow } from 'ui/components/data-display/Table/Table';
 
 // import { Component } from '@styles/pages/oportunidades.styled';
 
@@ -20,7 +21,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 
 const Oportunidades: React.FC = () => {
-    const {  oportunidades, isMobile, totalComodos, podeCandidatar } = useOportunidades();
+    const {  oportunidades, isMobile, totalComodos, podeCandidatar, currentPage, setCurrentPage, totalPages, itemsPerPage } = useOportunidades();
 
     const oportunidadesMock = [
         {
@@ -29,6 +30,7 @@ const Oportunidades: React.FC = () => {
             nome_servico: "Limpeza Pesada",
             preco: 140,
             cidade: "São Paulo",
+            estado: "SP",
             quantidade_banheiros: 1,
             quantidade_cozinhas: 1,
             quantidade_outros: 1,
@@ -37,24 +39,26 @@ const Oportunidades: React.FC = () => {
             quantidade_salas: 1
         },
         {
-            id: 1,
+            id: 2,
             data_atendimento: "2022-09-05",
             nome_servico: "Limpeza Diária",
             preco: 100,
             cidade: "São Paulo",
+            estado: "SP",
             quantidade_banheiros: 2,
             quantidade_cozinhas: 1,
             quantidade_outros: 1,
-            quantidade_quartos: 3,
+            quantidade_quartos: 4,
             quantidade_quintais: 1,
             quantidade_salas: 1
         },
         {
-            id: 1,
+            id: 3,
             data_atendimento: "2022-09-08",
             nome_servico: "Limpeza Leve",
             preco: 80,
             cidade: "São Paulo",
+            estado: "SP",
             quantidade_banheiros: 1,
             quantidade_cozinhas: 1,
             quantidade_outros: 0,
@@ -66,9 +70,9 @@ const Oportunidades: React.FC = () => {
     return (
         <Container sx={{ mb: 5, p: 0}}>
             <PageTitle title="Oportunidades de trabalho" />
-            {oportunidadesMock? (
+            {oportunidades? (
                  isMobile ? (
-                    oportunidadesMock.map((oportunidade) => {
+                    oportunidades.map((oportunidade) => {
                         return (
                             <DataList
                             key={oportunidade.id}
@@ -102,9 +106,55 @@ const Oportunidades: React.FC = () => {
                             />
                         )
                     })
-                    
                  ): (
-                    ""
+                    <>
+                        <Table 
+                        header={[
+                            "Data",
+                            "Tipo de Serviço",
+                            "Número de Cômodos",
+                            "Cidade",
+                            "Valor",
+                            ""
+                        ]}
+                        data={oportunidades}
+                        itemsPerPage={itemsPerPage}
+                        currentPage={currentPage}
+                        rowElement={(item, index)=>(
+                            <TableRow key={index}>
+                                <TableCell>
+                                    <strong>
+                                        {TextFormatService.reverseDate(item.data_atendimento as string)}
+                                    </strong>
+                                </TableCell>
+                                <TableCell>
+                                    {item.nome_servico}
+                                </TableCell>
+                                <TableCell>
+                                    {totalComodos(item)} cômodos
+                                </TableCell>
+                                <TableCell>
+                                    {item.cidade} - {item.estado}
+                                </TableCell>
+                                <TableCell>
+                                    {TextFormatService.currency(item.preco)}
+                                </TableCell>
+                                <TableCell>
+                                    {!podeCandidatar(item) && (
+                                        <Button onClick={()=>{}}>
+                                            Se candidatar
+                                        </Button>
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                            )}
+                        />
+                        <TablePagination 
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={(_event, nextPage)=> setCurrentPage(nextPage)}
+                        />
+                    </>
                  )
             ): (
                 <Typography align="center">Nenhuma oportunidade ainda</Typography>

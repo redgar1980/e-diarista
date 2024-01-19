@@ -5,13 +5,16 @@ import { UserContext } from "data/contexts/UserContext";
 import { Oportunidade } from "data/@types/OportunidadeInterface";
 import useIsMobile from "../useIsMobile";
 import { linksResolver } from "data/services/ApiService";
+import usePagination from "../usePagination.hook";
+
 
 export default function useOportunidades() {
   const {
     userState: { user }
   } = useContext(UserContext),
   oportunidades = useApiHateoas<Oportunidade[]>(user.links, "lista_oportunidades").data,
-  isMobile = useIsMobile();
+  isMobile = useIsMobile(),
+  {currentPage, setCurrentPage, totalPages, itemsPerPage} = usePagination(oportunidades ?? [], 5);
 
   function totalComodos(oportunidade: Oportunidade): number {
     let total = 0;
@@ -29,5 +32,5 @@ export default function useOportunidades() {
     return linksResolver(oportunidade.links, "candidatar_diaria") != undefined;
   }
 
-  return { oportunidades, isMobile, totalComodos, podeCandidatar };
+  return { oportunidades, isMobile, totalComodos, podeCandidatar, currentPage, setCurrentPage, totalPages, itemsPerPage };
 }
