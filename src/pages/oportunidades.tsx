@@ -35,7 +35,9 @@ const Oportunidades: React.FC = () => {
         itemsPerPage, 
         oportunidadeSelecionada, 
         setOportunidadeSelecionada,
-        mensagemSnackbar
+        mensagemSnackbar,
+        setMensagemSnackbar,
+        seCandidatar
     } = useOportunidades();
 
     const oportunidadesMock = [
@@ -103,9 +105,9 @@ const Oportunidades: React.FC = () => {
     return (
         <Container sx={{ mb: 5, p: 0}}>
             <PageTitle title="Oportunidades de trabalho" />
-            {oportunidadesMock? (
+            {oportunidades? (
                  isMobile ? (
-                    oportunidadesMock.map((oportunidade) => {
+                    oportunidades.map((oportunidade) => {
                         return (
                             <DataList
                             key={oportunidade.id}
@@ -150,7 +152,7 @@ const Oportunidades: React.FC = () => {
                             "Valor",
                             ""
                         ]}
-                        data={oportunidadesMock}
+                        data={oportunidades}
                         itemsPerPage={itemsPerPage}
                         currentPage={currentPage}
                         rowElement={(item, index)=>(
@@ -197,6 +199,7 @@ const Oportunidades: React.FC = () => {
                 isOpen={oportunidadeSelecionada !== undefined}
                 onClose={() => setOportunidadeSelecionada(undefined)}
                 title={"Se candidatar à diária"}
+                onConfirm={() => seCandidatar(oportunidadeSelecionada!)}
                 subtitle={"Tem certeza que deseja se candidatar à diária abaixo?"}
             >
                 <div>
@@ -249,7 +252,7 @@ const Oportunidades: React.FC = () => {
                 open={mensagemSnackbar.length > 0} 
                 message={mensagemSnackbar} 
                 autoHideDuration={4000}
-                onClose={() => {}}
+                onClose={() => setMensagemSnackbar("")}
             />
         </Container>
     );
