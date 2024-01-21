@@ -15,7 +15,8 @@ export default function useOportunidades() {
   oportunidades = useApiHateoas<Oportunidade[]>(user.links, "lista_oportunidades").data,
   isMobile = useIsMobile(),
   {currentPage, setCurrentPage, totalPages, itemsPerPage} = usePagination(oportunidades ?? [], 5),
-  [oportunidadeSelecionada, setOportunidadeSelecionada] = useState<Oportunidade>();
+  [oportunidadeSelecionada, setOportunidadeSelecionada] = useState<Oportunidade>(),
+  [mensagemSnackbar, setMensagemSnackbar] = useState("");
   
   function totalComodos(oportunidade: Oportunidade): number {
     let total = 0;
@@ -33,5 +34,17 @@ export default function useOportunidades() {
     return linksResolver(oportunidade.links, "candidatar_diaria") != undefined;
   }
 
-  return { oportunidades, isMobile, totalComodos, podeCandidatar, currentPage, setCurrentPage, totalPages, itemsPerPage, oportunidadeSelecionada, setOportunidadeSelecionada };
+  return { 
+    oportunidades, 
+    isMobile, 
+    totalComodos, 
+    podeCandidatar, 
+    currentPage, 
+    setCurrentPage, 
+    totalPages, 
+    itemsPerPage, 
+    oportunidadeSelecionada, 
+    setOportunidadeSelecionada,
+    mensagemSnackbar
+  };
 }
