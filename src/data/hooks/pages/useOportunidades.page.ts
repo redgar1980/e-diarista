@@ -1,5 +1,5 @@
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import useApiHateoas from "../useApi.hook";
 import { UserContext } from "data/contexts/UserContext";
 import { Oportunidade } from "data/@types/OportunidadeInterface";
@@ -14,8 +14,9 @@ export default function useOportunidades() {
   } = useContext(UserContext),
   oportunidades = useApiHateoas<Oportunidade[]>(user.links, "lista_oportunidades").data,
   isMobile = useIsMobile(),
-  {currentPage, setCurrentPage, totalPages, itemsPerPage} = usePagination(oportunidades ?? [], 5);
-
+  {currentPage, setCurrentPage, totalPages, itemsPerPage} = usePagination(oportunidades ?? [], 5),
+  [oportunidadeSelecionada, setOportunidadeSelecionada] = useState<Oportunidade>();
+  
   function totalComodos(oportunidade: Oportunidade): number {
     let total = 0;
     total += oportunidade.quantidade_banheiros;
@@ -32,5 +33,5 @@ export default function useOportunidades() {
     return linksResolver(oportunidade.links, "candidatar_diaria") != undefined;
   }
 
-  return { oportunidades, isMobile, totalComodos, podeCandidatar, currentPage, setCurrentPage, totalPages, itemsPerPage };
+  return { oportunidades, isMobile, totalComodos, podeCandidatar, currentPage, setCurrentPage, totalPages, itemsPerPage, oportunidadeSelecionada, setOportunidadeSelecionada };
 }

@@ -31,14 +31,16 @@ export const TextFormatService = {
     }
     return time.substring(0, 10);
   },
-  getAddress(endereco: EnderecoInterface): string {
+  getAddress(endereco: EnderecoInterface | undefined): string {
     let enderecoFormatado = "";
 
-    enderecoFormatado += endereco.logradouro ? `${endereco.logradouro}, ` : "";
-    enderecoFormatado += endereco.numero ? `${endereco.numero} - ` : "";
-    enderecoFormatado += endereco.bairro ? `${endereco.bairro}, ` : "";
-    enderecoFormatado += endereco.cidade ? `${endereco.cidade} - ` : "";
-    enderecoFormatado += endereco.estado ? `${endereco.estado}` : "";
+    if (endereco) {
+      enderecoFormatado += endereco.logradouro ? `${endereco.logradouro}, ` : "";
+      enderecoFormatado += endereco.numero ? `${endereco.numero} - ` : "";
+      enderecoFormatado += endereco.bairro ? `${endereco.bairro}, ` : "";
+      enderecoFormatado += endereco.cidade ? `${endereco.cidade} - ` : "";
+      enderecoFormatado += endereco.estado ? `${endereco.estado}` : "";
+    }
 
     return enderecoFormatado;
   },
@@ -52,4 +54,10 @@ export const TextFormatService = {
 
     return phoneNumber;
   },
+  dataTime(date = ""): string {
+    const dia = this.reverseDate(date),
+      hora = date.substring(10, 5);
+
+    return `${dia} às ${hora}`;
+  }
 };
