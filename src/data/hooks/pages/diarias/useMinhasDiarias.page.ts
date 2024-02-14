@@ -59,5 +59,6 @@ export default function useMinhasDiarias() {
     podeAvaliar,
     diariaConfirmar,
     setDiariaConfirmar,
+    confirmarDiaria,
   };
 }
