@@ -3,7 +3,7 @@ import { DiariaContext } from "data/contexts/DiariaContext";
 import useIsMobile from "data/hooks/useIsMobile";
 import usePagination from "data/hooks/usePagination.hook";
 import { linksResolver } from "data/services/ApiService";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export default function useMinhasDiarias() {
   const isMobile = useIsMobile(),
@@ -12,7 +12,8 @@ export default function useMinhasDiarias() {
     { currentPage, setCurrentPage, totalPages, itemsPerPage } = usePagination(
       diarias.diarias,
       5
-    );
+    ),
+    [diariaConfirmar, setDiariaConfirmar] = useState<DiariaInterface>();
 
   function podeVisualizar(diaria: DiariaInterface): boolean {
     return linksResolver(diaria.links, "self") !== undefined;
@@ -41,5 +42,7 @@ export default function useMinhasDiarias() {
     podeCancelar,
     podeConfirmar,
     podeAvaliar,
+    diariaConfirmar,
+    setDiariaConfirmar,
   };
 }

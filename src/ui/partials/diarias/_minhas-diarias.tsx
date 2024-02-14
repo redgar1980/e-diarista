@@ -27,6 +27,8 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
     podeCancelar,
     podeConfirmar,
     podeAvaliar,
+    diariaConfirmar,
+    setDiariaConfirmar,
   } = useMinhasDiarias();
   return (
     <Container sx={{ mb: 5, p: 0 }}>
@@ -34,50 +36,54 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
       {filteredData.diarias.length > 0 ? (
         isMobile ? (
           <>
-            {filteredData.diarias.map((item) => {
+            {filteredData.diarias.map((diaria) => {
               return (
                 <DataList
-                  key={item.id}
+                  key={diaria.id}
                   header={
                     <>
                       data:{" "}
                       {TextFormatService.reverseDate(
-                        item.data_atendimento as string
+                        diaria.data_atendimento as string
                       )}
                       <br />
-                      {item.nome_servico}
+                      {diaria.nome_servico}
                     </>
                   }
                   body={
                     <>
-                      Status: {DiariaService.getStatus(item.status!).label}
+                      Status: {DiariaService.getStatus(diaria.status!).label}
                       <br />
-                      Valor: {TextFormatService.currency(item.preco)}
+                      Valor: {TextFormatService.currency(diaria.preco)}
                     </>
                   }
                   actions={
                     <>
-                      {podeVisualizar(item) && (
+                      {podeVisualizar(diaria) && (
                         <Button
                           component={Link}
-                          href={`?id=${item.id}`}
+                          href={`?id=${diaria.id}`}
                           color={"inherit"}
                           variant={"outlined"}
                         >
                           Detalhes
                         </Button>
                       )}
-                      {podeCancelar(item) && (
+                      {podeCancelar(diaria) && (
                         <Button color={"error"} variant={"contained"}>
                           Cancelado
                         </Button>
                       )}
-                      {podeConfirmar(item) && (
-                        <Button color={"success"} variant={"contained"}>
+                      {podeConfirmar(diaria) && (
+                        <Button
+                          color={"success"}
+                          variant={"contained"}
+                          onClick={() => setDiariaConfirmar(diaria)}
+                        >
                           Confirmar Presença
                         </Button>
                       )}
-                      {podeAvaliar(item) && (
+                      {podeAvaliar(diaria) && (
                         <Button color={"success"} variant={"contained"}>
                           Avaliar
                         </Button>
@@ -95,40 +101,45 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
               data={filteredData.diarias}
               itemsPerPage={itemsPerPage}
               currentPage={currentPage}
-              rowElement={(item, index) => (
+              rowElement={(diaria, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     <strong>
                       {TextFormatService.reverseDate(
-                        item.data_atendimento as string
+                        diaria.data_atendimento as string
                       )}
                     </strong>
                   </TableCell>
                   <TableCell>
                     <Status
-                      colors={DiariaService.getStatus(item.status!).color}
+                      colors={DiariaService.getStatus(diaria.status!).color}
                     >
-                      {DiariaService.getStatus(item.status!).label}
-                      {item.status}
+                      {DiariaService.getStatus(diaria.status!).label}
+                      {diaria.status}
                     </Status>
                   </TableCell>
-                  <TableCell>{item.nome_servico}</TableCell>
+                  <TableCell>{diaria.nome_servico}</TableCell>
                   <TableCell>
-                    {TextFormatService.currency(item.preco)}
+                    {TextFormatService.currency(diaria.preco)}
                   </TableCell>
                   <TableCell>
-                    {podeVisualizar(item) && (
-                      <Link href={`?id=${item.id}`}>Detalhes</Link>
+                    {podeVisualizar(diaria) && (
+                      <Link href={`?id=${diaria.id}`}>Detalhes</Link>
                     )}
                   </TableCell>
                   <TableCell>
-                    {podeCancelar(item) && (
+                    {podeCancelar(diaria) && (
                       <Button color="error">Cancelar</Button>
                     )}
-                    {podeConfirmar(item) && (
-                      <Button color={"success"}>Confirmar Presença</Button>
+                    {podeConfirmar(diaria) && (
+                      <Button
+                        color={"success"}
+                        onClick={() => setDiariaConfirmar(diaria)}
+                      >
+                        Confirmar Presença
+                      </Button>
                     )}
-                    {podeAvaliar(item) && (
+                    {podeAvaliar(diaria) && (
                       <Button color={"success"}>Avaliar</Button>
                     )}
                   </TableCell>
