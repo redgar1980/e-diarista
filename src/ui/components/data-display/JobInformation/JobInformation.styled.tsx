@@ -1,9 +1,9 @@
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 //import { } from '@mui/material';
 //import { JobInformationProps } from './JobInformation';
 
-export const JobInformationContainer = styled('div')`
-  color: ${({ theme}) => theme.palette.text.secondary};
+export const JobInformationContainer = styled("div")`
+  color: ${({ theme }) => theme.palette.text.secondary};
   padding: ${({ theme }) => theme.spacing(2, 1)};
   margin-bottom: ${({ theme }) => theme.spacing(4)};
   font-size: ${({ theme }) => theme.typography.body2.fontSize};
@@ -15,20 +15,20 @@ export const JobInformationContainer = styled('div')`
     gap: ${({ theme }) => theme.spacing(4)};
     padding: ${({ theme }) => theme.spacing(3, 4)};
     background-color: ${({ theme }) => theme.palette.grey[100]};
-  };
+  } ;
 `;
 
-export const JobInformationIcon = styled('i')`
+export const JobInformationIcon = styled("i")`
   font-size: ${({ theme }) => theme.spacing(3)};
   ${({ theme }) => theme.breakpoints.down("md")} {
     display: none;
-  };
+  } ;
 `;
 
-export const JobDataContainer = styled('div')`
+export const JobDataContainer = styled("div")`
   ${({ theme }) => theme.breakpoints.down("md")} {
-    strong{
+    strong {
       font-weight: normal;
     }
-  };
+  } ;
 `;
