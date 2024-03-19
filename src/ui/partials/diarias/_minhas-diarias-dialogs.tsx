@@ -1,10 +1,16 @@
-import { Typography } from "@mui/material";
+import { Divider, Rating, Snackbar, Typography } from "@mui/material";
 import { DiariaInterface } from "data/@types/DiariaInterface";
+import { UserType } from "data/@types/UserInterface";
+import { UserContext } from "data/contexts/UserContext";
 import { DateService } from "data/services/DateService";
 import { TextFormatService } from "data/services/TextFormatService";
+import { useContext, useState } from "react";
 import JobInformation from "ui/components/data-display/JobInformation/JobInformation";
 import UserInformation from "ui/components/data-display/UserInformation/UserInformation";
 import Dialog from "ui/components/feedback/Dialog/Dialog";
+import { RatingBox } from "./_minhas-diarias.styled";
+import useIsMobile from "data/hooks/useIsMobile";
+import TextField from "ui/components/inputs/TextField/TextField";
 
 interface DialogProps {
   diaria: DiariaInterface;
@@ -29,6 +35,81 @@ const JobBox: React.FC<{ diaria: DiariaInterface }> = ({ diaria }) => {
         </div>
       </>
     </JobInformation>
+  );
+};
+
+interface RatingDialogProps extends Omit<DialogProps, "onConfirm"> {
+  onConfirm: (
+    diaria: DiariaInterface,
+    avaliacao: { descricao: string; nota: number }
+  ) => void;
+}
+
+export const RatingDialog: React.FC<RatingDialogProps> = (props) => {
+  const isMobile = useIsMobile(),
+    diarista = props.diaria.diarista,
+    {
+      userState: { user },
+    } = useContext(UserContext),
+    usuarioAvaliado =
+      user.tipo_usuario === UserType.Cliente
+        ? props.diaria.diarista
+        : props.diaria.cliente,
+    [nota, setNota] = useState(3),
+    [descricao, setDescricao] = useState(""),
+    [erroMensagem, setErroMensagem] = useState("");
+
+  function tentarAvaliar() {
+    if (descricao.length > 3) {
+      props.onConfirm(props.diaria, { descricao, nota });
+    } else {
+      setErroMensagem("Escreva um depoimento");
+    }
+  }
+  return (
+    <Dialog
+      isOpen={true}
+      onClose={props.onCancel}
+      onConfirm={tentarAvaliar}
+      title={"Avaliar uma diária"}
+      subtitle={"Avalie uma diária abaixo"}
+    >
+      <JobBox diaria={props.diaria} />
+      <UserInformation
+        name={usuarioAvaliado?.nome_completo ?? ""}
+        rating={usuarioAvaliado?.reputacao ?? 1}
+        description={
+          "Telefone: " +
+          TextFormatService.formatPhoneNumber(usuarioAvaliado?.telefone ?? "")
+        }
+        picture={usuarioAvaliado?.foto_usuario ?? ""}
+      />
+      <Divider sx={{ my: 4 }} />
+      <Typography>Deixe a sua avaliação</Typography>
+      <RatingBox>
+        <strong>Nota:</strong>
+        <Rating
+          value={nota}
+          onChange={(_event, value) => setNota(value ?? 1)}
+          size={isMobile ? "large" : "small"}
+        />
+        <strong>Depoimento:</strong>
+        <TextField
+          label={"Digite aqui seu depoimento"}
+          fullWidth
+          multiline
+          rows={3}
+          value={descricao}
+          onChange={(event) => setDescricao(event.target.value)}
+        />
+      </RatingBox>
+      <Snackbar
+        open={erroMensagem.length > 0}
+        message={erroMensagem}
+        autoHideDuration={4000}
+        onClose={() => setErroMensagem("")}
+      />
+    </Dialog>
   );
 };
 

@@ -1,8 +1,21 @@
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 // import { } from '@mui/material';
 
+export const RatingBox = styled("div")`
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: ${({ theme }) => theme.spacing(1, 2)};
+  margin: ${({ theme }) => theme.spacing(4, 0)};
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    padding: ${({ theme }) => theme.spacing(3)};
+    border: 1px solid ${({ theme }) => theme.palette.grey[200]};
 
-export const Component = styled('div')`
-  background-color: white;
-  color: black;
+    > :nth-child(odd) {
+      justify-self: end;
+    }
+  }
+
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    grid-template-columns: 1fr;
+  }
 `;
