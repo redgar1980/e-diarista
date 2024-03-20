@@ -16,7 +16,8 @@ import { LoginService } from "data/services/LoginService";
 
 function App({ Component, pageProps }: AppProps) {
   const { userState } = useContext(UserContext),
-    router = useRouterGuard(userState.user, userState.isLogging);
+    router = useRouterGuard(userState.user, userState.isLogging),
+    titleValue = `e-diarista ${pageProps.title && `- ${pageProps.title}`}`;
 
   function canShow(): boolean {
     if (privateRoutes.includes(router.pathname)) {
@@ -36,7 +37,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>e-diarista {pageProps.title && ` - ${pageProps.title}`}</title>
+        <title>{titleValue}</title>
       </Head>
       <ThemeProvider theme={theme}>
         <AppContainer>
