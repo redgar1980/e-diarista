@@ -34,10 +34,25 @@ export default function useMinhasDiarias() {
   }
 
   async function confirmarDiaria(diaria: DiariaInterface) {
-    ApiServiceHateoas(diaria.links, "confirmar-diarista", async (request) => {
+    ApiServiceHateoas(diaria.links, "confirmar_diarista", async (request) => {
       try {
         await request();
         setDiariaConfirmar(undefined);
+        atualizarDiarias();
+      } catch (error) {}
+    });
+  }
+
+  async function avaliarDiaria(
+    diaria: DiariaInterface,
+    avaliacao: { descricao: string; nota: number }
+  ) {
+    ApiServiceHateoas(diaria.links, "avaliar_diaria", async (request) => {
+      try {
+        await request({
+          data: avaliacao,
+        });
+        setDiariaAvaliar(undefined);
         atualizarDiarias();
       } catch (error) {}
     });
@@ -63,5 +78,6 @@ export default function useMinhasDiarias() {
     confirmarDiaria,
     diariaAvaliar,
     setDiariaAvaliar,
+    avaliarDiaria,
   };
 }
