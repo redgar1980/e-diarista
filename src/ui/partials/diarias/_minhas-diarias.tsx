@@ -17,6 +17,7 @@ import {
   ConfirmDialog,
   RatingDialog,
 } from "./_minhas-diarias-dialogs";
+import { ButtonContainer } from "./_minhas-diarias.styled";
 
 // import { Component } from './_minhas-diarias.styled';
 
@@ -45,6 +46,13 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
   return (
     <Container sx={{ mb: 5, p: 0 }}>
       <PageTitle title="Minhas Diárias" />
+
+      <ButtonContainer>
+        <Button variant={"contained"}>Pendentes</Button>
+        <Button variant={"outlined"}>Avaliadas</Button>
+        <Button variant={"outlined"}>Canceladas</Button>
+      </ButtonContainer>
+
       {filteredData.diarias.length > 0 ? (
         isMobile ? (
           <>
