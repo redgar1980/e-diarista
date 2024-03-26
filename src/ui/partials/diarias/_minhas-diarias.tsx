@@ -42,15 +42,32 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
     diariaCancelar,
     setDiariaCancelar,
     cancelarDiaria,
+    filtro,
+    setFiltro,
   } = useMinhasDiarias();
   return (
     <Container sx={{ mb: 5, p: 0 }}>
       <PageTitle title="Minhas Diárias" />
 
       <ButtonContainer>
-        <Button variant={"contained"}>Pendentes</Button>
-        <Button variant={"outlined"}>Avaliadas</Button>
-        <Button variant={"outlined"}>Canceladas</Button>
+        <Button
+          onClick={() => setFiltro("pendentes")}
+          variant={filtro === "pendentes" ? "contained" : "outlined"}
+        >
+          Pendentes
+        </Button>
+        <Button
+          onClick={() => setFiltro("avaliados")}
+          variant={filtro === "avaliados" ? "contained" : "outlined"}
+        >
+          Avaliadas
+        </Button>
+        <Button
+          onClick={() => setFiltro("cancelados")}
+          variant={filtro === "cancelados" ? "contained" : "outlined"}
+        >
+          Canceladas
+        </Button>
       </ButtonContainer>
 
       {filteredData.diarias.length > 0 ? (

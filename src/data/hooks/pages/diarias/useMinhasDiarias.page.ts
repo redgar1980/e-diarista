@@ -6,9 +6,12 @@ import { ApiServiceHateoas, linksResolver } from "data/services/ApiService";
 import { useContext, useState } from "react";
 import { mutate } from "swr";
 
+type FilterType = "pendentes" | "cancelados" | "avaliados";
+
 export default function useMinhasDiarias() {
   const isMobile = useIsMobile(),
     { diariaState: diarias } = useContext(DiariaContext),
+    [filtro, setFiltro] = useState<FilterType>("pendentes"),
     filteredData = diarias,
     { currentPage, setCurrentPage, totalPages, itemsPerPage } = usePagination(
       diarias.diarias,
@@ -97,5 +100,7 @@ export default function useMinhasDiarias() {
     diariaCancelar,
     setDiariaCancelar,
     cancelarDiaria,
+    filtro,
+    setFiltro,
   };
 }
