@@ -44,6 +44,7 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
     cancelarDiaria,
     filtro,
     setFiltro,
+    alterarFiltro,
   } = useMinhasDiarias();
   return (
     <Container sx={{ mb: 5, p: 0 }}>
@@ -51,29 +52,29 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
 
       <ButtonContainer>
         <Button
-          onClick={() => setFiltro("pendentes")}
+          onClick={() => alterarFiltro("pendentes")}
           variant={filtro === "pendentes" ? "contained" : "outlined"}
         >
           Pendentes
         </Button>
         <Button
-          onClick={() => setFiltro("avaliados")}
+          onClick={() => alterarFiltro("avaliados")}
           variant={filtro === "avaliados" ? "contained" : "outlined"}
         >
           Avaliadas
         </Button>
         <Button
-          onClick={() => setFiltro("cancelados")}
+          onClick={() => alterarFiltro("cancelados")}
           variant={filtro === "cancelados" ? "contained" : "outlined"}
         >
           Canceladas
         </Button>
       </ButtonContainer>
 
-      {filteredData.diarias.length > 0 ? (
+      {filteredData.length > 0 ? (
         isMobile ? (
           <>
-            {filteredData.diarias.map((diaria) => {
+            {filteredData.map((diaria) => {
               return (
                 <DataList
                   key={diaria.id}
@@ -143,7 +144,7 @@ const MinhasDiarias: React.FC<PropsWithChildren> = () => {
           <>
             <Table
               header={["Data", "Status", "Tipo de Serviço", "Valor", "", ""]}
-              data={filteredData.diarias}
+              data={filteredData}
               itemsPerPage={itemsPerPage}
               currentPage={currentPage}
               rowElement={(diaria, index) => (
