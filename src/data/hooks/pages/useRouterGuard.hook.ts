@@ -1,23 +1,25 @@
 import { UserInterface, UserType } from "data/@types/UserInterface";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter, NextRouter } from "next/router";
 import { useEffect } from "react";
 
 export const privateRoutes = [
   "/alterar-dados",
   "/diarias",
   "/pagamentos",
-  //"/oportunidades",
+  "/oportunidades",
 ];
 
 export const annonymousRoutes = [
   "/cadastro/diarista",
   "/login",
   "/recuperar-senha",
-  "/oportunidades",
+  //"/oportunidades",
+  //"/pagamentos",
   "/",
 ];
 
-export const houseCleanerOnlyRoutes = ["/pagamentos"];
+export const houseCleanerOnlyRoutes = ["/pagamentos", "/oportunidades"];
+//export const houseCleanerOnlyRoutes = [""];
 
 export default function useRouterGuard(
   user: UserInterface,
@@ -29,7 +31,9 @@ export default function useRouterGuard(
 
   useEffect(() => {
     handleNavigation(router.route);
+
     router.events.on("routeChangeStart", handleNavigation);
+
     return () => {
       router.events.off("routeChangeStart", handleNavigation);
     };
