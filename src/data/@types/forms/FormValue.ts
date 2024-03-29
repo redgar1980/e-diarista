@@ -42,7 +42,7 @@ export type FormValues = {
 
   login: {
     email: string;
-    password: string;
+    senha: string;
   };
 
   enderecosAtendidos: CidadeInterface[];

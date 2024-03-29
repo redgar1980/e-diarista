@@ -22,9 +22,9 @@ export const LoginForm = () => {
       <TextField
         label={"Senha"}
         type={"password"}
-        {...register("login.password")}
-        error={errors.login?.password != undefined}
-        helperText={errors.login?.password?.message}
+        {...register("login.senha")}
+        error={errors.login?.senha != undefined}
+        helperText={errors.login?.senha?.message}
       />
       <Link href="/recuperar-senha">Esqueci minha senha</Link>
     </LoginData>
