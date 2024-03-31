@@ -1,7 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserType } from "data/@types/UserInterface";
 import { UserContext } from "data/contexts/UserContext";
+import { ApiServiceHateoas } from "data/services/ApiService";
 import { FormSchemaService } from "data/services/FormSchemaService";
+import { ObjectService } from "data/services/ObjectService";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -14,7 +16,8 @@ export function useAlterarDados() {
     formMethods = useForm({
       resolver: getResolver(),
     }),
-    [picture, setPicture] = useState<string>();
+    [picture, setPicture] = useState<string>(),
+    [pictureFile, setPictureFile] = useState<File>();
 
   useEffect(() => {
     setPicture(user.foto_usuario);
@@ -40,5 +43,24 @@ export function useAlterarDados() {
     }
     return yupResolver(resolver);
   }
+
+  async function updatePicture() {
+    ApiServiceHateoas(user.links, "alterar_foto_usuario", async (request) => {
+      if (pictureFile) {
+        try {
+          const userData = ObjectService.jsonToFormData({
+            foto_usuario: pictureFile,
+          });
+          await request({
+            data: userData,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        } catch (error) {}
+      }
+    });
+  }
+
   return { formMethods, dadosUsuario, picture, onPictureChange };
 }
