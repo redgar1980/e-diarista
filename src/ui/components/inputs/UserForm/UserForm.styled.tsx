@@ -130,5 +130,22 @@ export const FinancialData = styled(BaseGrid)`
 
 export const CitiesSelection = styled(BaseGrid)`
   grid-template-columns: 1f;
-  grid-template-areas: 'busca-cidade';
+  grid-template-areas: "busca-cidade";
+`;
+
+export const ContactData = styled(BaseGrid)`
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    "email email"
+    "senha-antiga senha-antiga"
+    "confirmar-senha confirmar-senha"
+    "password-strength _";
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    grid-template-areas:
+      "email"
+      "senha-antiga"
+      "nova-senha"
+      "password-strength"
+      "confirmar-senha";
+  }
 `;
