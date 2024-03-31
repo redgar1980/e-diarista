@@ -6,13 +6,14 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 export function useAlterarDados() {
-  const formMethods = useForm({
-      resolver: getResolver(),
-    }),
-    {
+  const {
       userState: { user },
       userDispatch,
-    } = useContext(UserContext);
+    } = useContext(UserContext),
+    dadosUsuario = user,
+    formMethods = useForm({
+      resolver: getResolver(),
+    });
 
   function getResolver() {
     let resolver = FormSchemaService.userData().concat(
@@ -24,4 +25,5 @@ export function useAlterarDados() {
     }
     return yupResolver(resolver);
   }
+  return { formMethods, dadosUsuario };
 }

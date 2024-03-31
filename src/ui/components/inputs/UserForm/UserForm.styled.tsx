@@ -138,7 +138,7 @@ export const ContactData = styled(BaseGrid)`
   grid-template-areas:
     "email email"
     "senha-antiga senha-antiga"
-    "confirmar-senha confirmar-senha"
+    "nova-senha confirmar-senha"
     "password-strength _";
   ${({ theme }) => theme.breakpoints.down("md")} {
     grid-template-areas:
