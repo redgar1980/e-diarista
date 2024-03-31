@@ -3,6 +3,8 @@ import TextField from "ui/components/inputs/TextField/TextField";
 import { useFormContext } from "react-hook-form";
 import { FormValues } from "data/@types/forms/FormValue";
 import PasswordStrenght from "ui/components/feedback/PasswordStrenght/PasswordStrenght";
+import { useContext } from "react";
+import { UserContext } from "data/contexts/UserContext";
 
 const ContactForm = () => {
   const {
@@ -10,12 +12,16 @@ const ContactForm = () => {
     formState: { errors },
     watch,
   } = useFormContext<FormValues>();
-  const newPassword = watch("usuario.new_password");
+  const newPassword = watch("usuario.new_password"),
+    {
+      userState: { user },
+    } = useContext(UserContext);
   return (
     <ContactData>
       <TextField
         type={"email"}
         label={"E-mail"}
+        defaultValue={user.email}
         style={{ gridArea: "email" }}
         {...register("usuario.email")}
         error={errors?.usuario?.email != undefined}
