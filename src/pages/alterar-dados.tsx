@@ -10,7 +10,7 @@ import {
 } from "ui/components/inputs/UserForm/UserForm";
 import PageTitle from "ui/components/data-display/PageTitle/PageTitle";
 import { Box, Button, Paper, Typography } from "@mui/material";
-import { FormContainer } from "@styles/pages/alterar-dados.styled";
+import { FormContainer, UserPicture } from "@styles/pages/alterar-dados.styled";
 import { UserType } from "data/@types/UserInterface";
 import ContactForm from "ui/components/inputs/UserForm/forms/ContactForm";
 import { CitiesForm } from "ui/components/inputs/UserForm/forms/CitiesForm";
@@ -26,13 +26,25 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const AlterarDados: React.FC = () => {
-  const { formMethods, dadosUsuario } = useAlterarDados();
+  const { formMethods, dadosUsuario, picture, onPictureChange } =
+    useAlterarDados();
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={() => {}}>
         <UserFormContainer>
           <PageTitle title="Alterar dados cadastrais" />
-          <Paper>
+          <Paper sx={{ position: "relative", mb: 3, mt: 15 }}>
+            <UserPicture>
+              {picture && (
+                <img src={picture} alt={dadosUsuario.nome_completo} />
+              )}
+              <input
+                type="file"
+                accept=".jpeg, .jpg, .png"
+                onChange={onPictureChange}
+              />
+              <i className="twf-camera" />
+            </UserPicture>
             <Typography sx={{ pt: 14, pb: 2 }} align={"center"}>
               Dados pessoais
             </Typography>
