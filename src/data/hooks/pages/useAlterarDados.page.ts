@@ -1,9 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { EnderecoInterface } from "data/@types/EnderecoInteface";
+import { CadastroDiaristaFormDataInterface } from "data/@types/FormInterface";
 import { UserType } from "data/@types/UserInterface";
 import { UserContext } from "data/contexts/UserContext";
 import { ApiServiceHateoas } from "data/services/ApiService";
 import { FormSchemaService } from "data/services/FormSchemaService";
 import { ObjectService } from "data/services/ObjectService";
+import { TextFormatService } from "data/services/TextFormatService";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -13,7 +16,7 @@ export function useAlterarDados() {
       userDispatch,
     } = useContext(UserContext),
     dadosUsuario = user,
-    formMethods = useForm({
+    formMethods = useForm<CadastroDiaristaFormDataInterface>({
       resolver: getResolver(),
     }),
     [picture, setPicture] = useState<string>(),
@@ -59,6 +62,22 @@ export function useAlterarDados() {
           });
         } catch (error) {}
       }
+    });
+  }
+
+  async function updateUserAddress(data: CadastroDiaristaFormDataInterface) {
+    ApiServiceHateoas(user.links, "editar_endereco", async (request) => {
+      const endereco = {
+        ...data.endereco,
+        cep: TextFormatService.getNumbersFromText(data.endereco?.cep),
+      };
+
+      try {
+        await request<EnderecoInterface>({
+          data: endereco,
+        });
+        userDispatch({ type: "SET_USER_ADDRESS", payload: endereco });
+      } catch (error) {}
     });
   }
 
