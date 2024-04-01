@@ -9,7 +9,7 @@ import {
   UserFormContainer,
 } from "ui/components/inputs/UserForm/UserForm";
 import PageTitle from "ui/components/data-display/PageTitle/PageTitle";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Snackbar, Typography } from "@mui/material";
 import { FormContainer, UserPicture } from "@styles/pages/alterar-dados.styled";
 import { UserType } from "data/@types/UserInterface";
 import ContactForm from "ui/components/inputs/UserForm/forms/ContactForm";
@@ -26,11 +26,19 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const AlterarDados: React.FC = () => {
-  const { formMethods, dadosUsuario, picture, onPictureChange } =
-    useAlterarDados();
+  const {
+    formMethods,
+    dadosUsuario,
+    picture,
+    onPictureChange,
+    onSubmit,
+    dadosEndereco,
+    snackMessage,
+    setSnackMessage,
+  } = useAlterarDados();
   return (
     <FormProvider {...formMethods}>
-      <form onSubmit={() => {}}>
+      <form onSubmit={formMethods.handleSubmit(onSubmit)}>
         <UserFormContainer>
           <PageTitle title="Alterar dados cadastrais" />
           <Paper sx={{ position: "relative", mb: 3, mt: 15 }}>
@@ -88,7 +96,7 @@ const AlterarDados: React.FC = () => {
                   Cidades
                 </Typography>
                 <FormContainer>
-                  <CitiesForm estado="SP" />
+                  <CitiesForm estado={dadosEndereco.estado} />
                 </FormContainer>
               </Paper>
             </>
@@ -105,6 +113,12 @@ const AlterarDados: React.FC = () => {
           </Box>
         </UserFormContainer>
       </form>
+      <Snackbar
+        open={snackMessage.length > 0}
+        message={snackMessage}
+        autoHideDuration={4000}
+        onClose={() => setSnackMessage("")}
+      />
     </FormProvider>
   );
 };

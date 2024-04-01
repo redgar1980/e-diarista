@@ -13,19 +13,37 @@ import { useForm } from "react-hook-form";
 
 export function useAlterarDados() {
   const {
-      userState: { user },
+      userState: { user, userAddress },
       userDispatch,
     } = useContext(UserContext),
     dadosUsuario = user,
+    dadosEndereco = userAddress,
     formMethods = useForm<CadastroDiaristaFormDataInterface>({
       resolver: getResolver(),
     }),
     [picture, setPicture] = useState<string>(),
-    [pictureFile, setPictureFile] = useState<File>();
+    [pictureFile, setPictureFile] = useState<File>(),
+    [snackMessage, setSnackMessage] = useState("");
 
   useEffect(() => {
     setPicture(user.foto_usuario);
   }, [user]);
+
+  async function onSubmit(data: CadastroDiaristaFormDataInterface) {
+    const isDiarista = user.tipo_usuario === UserType.Diarista;
+    try {
+      Promise.all([
+        updatePicture(),
+        updateUser(data),
+        isDiarista && updateCitiesList(data),
+        isDiarista && updateUserAddress(data),
+      ]);
+
+      setSnackMessage("Dados atualizados");
+    } catch (error) {
+      setSnackMessage("Ocorreu erro ao atualizar os dados");
+    }
+  }
 
   function onPictureChange({
     target: { files },
@@ -33,6 +51,7 @@ export function useAlterarDados() {
     if (files !== null && files.length) {
       const file = files[0];
       setPicture(URL.createObjectURL(file));
+      setPictureFile(file);
     }
     //const target = event.target;
   }
@@ -60,6 +79,10 @@ export function useAlterarDados() {
             headers: {
               "Content-Type": "multipart/form-data",
             },
+          });
+          userDispatch({
+            type: "SET_USER",
+            payload: { ...dadosUsuario, foto_usuario: picture },
           });
         } catch (error) {}
       }
@@ -154,5 +177,14 @@ export function useAlterarDados() {
     });
   }
 
-  return { formMethods, dadosUsuario, picture, onPictureChange };
+  return {
+    formMethods,
+    dadosUsuario,
+    picture,
+    onPictureChange,
+    onSubmit,
+    dadosEndereco,
+    snackMessage,
+    setSnackMessage,
+  };
 }

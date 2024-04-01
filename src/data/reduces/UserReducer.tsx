@@ -109,7 +109,7 @@ export function useUserReducer(): UserReducerInterface {
   }
 
   async function getAddressList(user: UserInterface) {
-    ApiServiceHateoas(user.links, "cidades_atendidaas", async (request) => {
+    ApiServiceHateoas(user.links, "cidades_atendidas", async (request) => {
       try {
         const response = await request();
         dispatch({ type: "SET_ADDRESS_LIST", payload: response.data });
