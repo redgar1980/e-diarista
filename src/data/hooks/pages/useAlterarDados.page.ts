@@ -1,7 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios, { AxiosError } from "axios";
 import { EnderecoInterface } from "data/@types/EnderecoInteface";
 import { CadastroDiaristaFormDataInterface } from "data/@types/FormInterface";
-import { UserType } from "data/@types/UserInterface";
+import { UserInterface, UserType } from "data/@types/UserInterface";
 import { UserContext } from "data/contexts/UserContext";
 import { ApiServiceHateoas } from "data/services/ApiService";
 import { FormSchemaService } from "data/services/FormSchemaService";
@@ -94,6 +95,62 @@ export function useAlterarDados() {
           payload: data.enderecoAtendidos,
         });
       } catch (error) {}
+    });
+  }
+
+  async function updateUser(data: CadastroDiaristaFormDataInterface) {
+    ApiServiceHateoas(user.links, "editar_usuario", async (request) => {
+      try {
+        const nascimento = TextFormatService.dataToString(
+            data.usuario.nascimento as Date
+          ),
+          cpf = TextFormatService.getNumbersFromText(data.usuario.cpf),
+          telefone = TextFormatService.getNumbersFromText(
+            data.usuario.telefone
+          ),
+          userData = {
+            ...data.usuario,
+            nascimento,
+            cpf,
+            telefone,
+          } as UserInterface;
+
+        delete userData.foto_usuario;
+
+        if (
+          !userData.password ||
+          !userData.password_confirmation ||
+          !userData.new_password
+        ) {
+          delete userData.password;
+          delete userData.password_confirmation;
+          delete userData.new_password;
+        }
+
+        const updateUser = (
+          await request<EnderecoInterface>({
+            data: userData,
+          })
+        ).data;
+
+        userDispatch({
+          type: "SET_USER",
+          payload: {
+            ...dadosUsuario,
+            ...updateUser,
+          },
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const { response } = error as AxiosError<{ password: string }>;
+          if (response?.data.password) {
+            formMethods.setError("usuario.password", {
+              type: "invalida",
+              message: "Senha inválida",
+            });
+          }
+        }
+      }
     });
   }
 
