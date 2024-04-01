@@ -81,5 +81,21 @@ export function useAlterarDados() {
     });
   }
 
+  async function updateCitiesList(data: CadastroDiaristaFormDataInterface) {
+    ApiServiceHateoas(user.links, "relacionar_cidades", async (request) => {
+      try {
+        await request<EnderecoInterface>({
+          data: {
+            cidades: data.enderecoAtendidos,
+          },
+        });
+        userDispatch({
+          type: "SET_ADDRESS_LIST",
+          payload: data.enderecoAtendidos,
+        });
+      } catch (error) {}
+    });
+  }
+
   return { formMethods, dadosUsuario, picture, onPictureChange };
 }
