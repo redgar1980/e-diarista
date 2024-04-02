@@ -68,7 +68,7 @@ export function ApiServiceHateoas(
   onCantRequest?: Function
 ) {
   const link = linksResolver(links, nome);
-
+  console.log(link);
   if (link) {
     onCanRequest(async (data) => {
       return await ApiService.request({
