@@ -8,8 +8,8 @@ export const FormFieldsContainer = styled("div")`
   align-items: center;
   gap: ${({ theme }) => theme.spacing(2)};
   width: 100%;
-  max-width: 1500px;
-  margin: ${({ theme }) => "0 auto" + theme.spacing(8)};
+  max-width: 500px;
+  margin: auto;
 `;
 
 export const LoginButton = styled(Button)``;
