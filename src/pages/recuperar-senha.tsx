@@ -6,9 +6,10 @@ import {
   LoginButton,
 } from "@styles/pages/recuperar-senha.styled";
 import TextField from "ui/components/inputs/TextField/TextField";
-import { Container } from "@mui/material";
+import { Container, Snackbar } from "@mui/material";
 import PageTitle from "ui/components/data-display/PageTitle/PageTitle";
 import PasswordStrenght from "ui/components/feedback/PasswordStrenght/PasswordStrenght";
+import { useRouter } from "next/router";
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -19,37 +20,91 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const RecuperarSenha: React.FC = () => {
-  const { router } = useRecuperarSenha();
+  const router = useRouter();
+  const {
+    email,
+    setEmail,
+    mensagemSnack,
+    setMensagemSnack,
+    confirmarSenha,
+    setConfirmarSenha,
+    pedirTokenRecuperacao,
+    resetarSenha,
+    setValueInputToken,
+    password,
+    setPassword,
+    requestEmail,
+    setRequestEmail,
+  } = useRecuperarSenha(router.query.token as string);
   return (
     <Container>
       <PageTitle title={"Recuperação de Senha"} />
       {router.query.token ? (
         <FormFieldsContainer>
-          <TextField label={"Digite seu E-mail"} type={"email"} fullWidth />
+          <TextField
+            label={"Digite seu E-mail"}
+            type={"email"}
+            fullWidth
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
           <TextField
             label={"Digite a nova senha"}
             type={"password"}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             fullWidth
           />
           <TextField
             label={"Confirme a nova senha"}
             type={"password"}
+            value={confirmarSenha}
+            onChange={(event) => setConfirmarSenha(event.target.value)}
             fullWidth
           />
-          <PasswordStrenght password="" />
-          <LoginButton size={"large"} variant={"contained"} color={"secondary"}>
+          <PasswordStrenght password={password} />
+          <LoginButton
+            size={"large"}
+            variant={"contained"}
+            color={"secondary"}
+            onClick={resetarSenha}
+          >
             Redefinir Senha
           </LoginButton>
         </FormFieldsContainer>
       ) : (
         <FormFieldsContainer>
-          <TextField label={"Digite seu E-mail"} type={"email"} />
-          <TextField label={"Digite seu Token"} type={"text"} />
-          <LoginButton size={"large"} variant={"contained"} color={"secondary"}>
-            Enviar E-mail
+          <TextField
+            label={"Digite seu E-mail"}
+            type={"email"}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          {requestEmail && (
+            <TextField
+              label={"Digite seu Token"}
+              type={"text"}
+              onChange={(event) => {
+                setValueInputToken(event.target.value);
+                setRequestEmail(false);
+              }}
+            />
+          )}
+          <LoginButton
+            size={"large"}
+            variant={"contained"}
+            color={"secondary"}
+            onClick={pedirTokenRecuperacao}
+          >
+            {requestEmail ? "Alterar Senha" : "Enviar E-mail"}
           </LoginButton>
         </FormFieldsContainer>
       )}
+      <Snackbar
+        open={mensagemSnack.length > 0}
+        message={mensagemSnack}
+        autoHideDuration={4000}
+        onClose={() => setMensagemSnack("")}
+      ></Snackbar>
     </Container>
   );
 };

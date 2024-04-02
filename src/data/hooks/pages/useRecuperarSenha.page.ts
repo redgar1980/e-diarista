@@ -14,8 +14,17 @@ export function useRecuperarSenha(token = "") {
     [valueInputToken, setValueInputToken] = useState("");
 
   async function pedirTokenRecuperacao() {
+    // if (valueInputToken) {
+    //   router.push({
+    //     pathname: "/recuperar-senha",
+    //     query: { token: valueInputToken },
+    //   });
+    //   token = valueInputToken;
+    //   return;
+    // }
+    // setRequestEmail(true);
     if (email.length > 8) {
-      if (requestEmail) {
+      if (valueInputToken) {
         router.push({
           pathname: "/recuperar-senha",
           query: { token: valueInputToken },
@@ -64,10 +73,13 @@ export function useRecuperarSenha(token = "") {
               token,
               email,
               password,
+              password_confirmation: confirmarSenha,
             },
           });
           setMensagemSnack("Senha resetada com sucesso!");
-        } catch (error) {}
+        } catch (error) {
+          setMensagemSnack("Erro ao resetar a senha!");
+        }
       }
     );
   }
